@@ -8,9 +8,9 @@ async function main() {
   const [deployer] = await viem.getWalletClients();
 
   // Contract details
-  const contractAddress = "0xd9cf1ec86e208a409d3de638e72686bb114f4750";
-  const adminWallet = "0x33673Fb2Bd33Fe285D27eEc3E9D0Dc1F70E8Be65";
-  const userWallet = "0x4E8E7dE766744a071E117dF951856Dd3378a0183";
+  const contractAddress = "0x494431f194ae0ad6328af03ac850c38a0aa639f9";
+  const adminWallet = "0x6106a06a2f340f11574154a4dd6ba629d3e94402";
+  const userWallet = "0x08E8d6FB87CE65a250C0647A2505F085dc994423";
   const tokenAmount = 100; // 100 CST tokens
 
   console.log(`📊 Transfer Details:`);

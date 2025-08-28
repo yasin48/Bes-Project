@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase'
@@ -12,6 +12,7 @@ export function WalletConnection() {
   const { disconnect } = useDisconnect()
   const { user } = useAuth()
   const [isSaving, setIsSaving] = useState(false)
+  const lastSavedRef = useRef<string | null>(null)
 
   const saveWalletAddress = async (walletAddress: string) => {
     if (!user) return
@@ -22,7 +23,6 @@ export function WalletConnection() {
         .from('users')
         .upsert({
           id: user.id,
-          email: user.email || '',
           wallet_address: walletAddress,
         })
 
@@ -46,10 +46,24 @@ export function WalletConnection() {
     disconnect()
   }
 
-  // Save wallet address when connected
-  if (isConnected && address && user && !isSaving) {
-    saveWalletAddress(address)
-  }
+  // Save wallet address when connected (run once per address)
+  useEffect(() => {
+    const persistAddress = async () => {
+      if (!isConnected || !address || !user) return
+      if (lastSavedRef.current === address) return
+      if (isSaving) return
+
+      setIsSaving(true)
+      try {
+        await saveWalletAddress(address)
+        lastSavedRef.current = address
+      } finally {
+        setIsSaving(false)
+      }
+    }
+
+    void persistAddress()
+  }, [isConnected, address, user])
 
   if (isConnected && address) {
     return (
@@ -91,16 +105,13 @@ export function WalletConnection() {
               onClick={() => handleConnect(connector)}
               disabled={isPending}
               className="w-full"
-              variant={connector.name.toLowerCase().includes('metamask') ? 'default' : 'outline'}
+              variant={connector.name.toLowerCase().includes('metamask') ? 'outline' : 'default'}
             >
               {isPending ? 'Connecting...' : `Connect ${connector.name}`}
             </Button>
           ))}
         </div>
         
-        <p className="text-xs text-gray-400 mt-4">
-          Make sure you're on the Sepolia testnet
-        </p>
       </div>
     </div>
   )

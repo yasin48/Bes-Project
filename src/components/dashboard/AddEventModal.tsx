@@ -80,12 +80,11 @@ export default function AddEventModal({ open, onClose, onEventAdded }: AddEventM
       const eventData = {
         user_id: user.id,
         event_name: eventName,
-        metric_1: parseInt(metric1, 10),
-        metric_2: parseInt(metric2, 10),
-        calculated_score: Math.round(calculatedScore),
-        calculated_token_amount: Math.round(calculatedTokens),
+        metric_1: Number(parseFloat(metric1).toFixed(2)),
+        metric_2: Number(parseFloat(metric2).toFixed(2)),
+        calculated_score: Number(calculatedScore.toFixed(2)),
+        calculated_token_amount: Number(calculatedTokens.toFixed(2)),
       }
-
       const { data, error: insertError } = await supabase
         .from('events')
         .insert([eventData])

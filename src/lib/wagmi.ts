@@ -1,22 +1,20 @@
 import { createConfig, http } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
-import { injected, metaMask, walletConnect } from 'wagmi/connectors'
+import {  metaMask } from 'wagmi/connectors'
 
 // Your deployed contract information
-export const COMMUNAL_SCORE_TOKEN_ADDRESS = '0xd9cf1ec86e208a409d3de638e72686bb114f4750'
+export const COMMUNAL_SCORE_TOKEN_ADDRESS = '0x494431f194ae0ad6328af03ac850c38a0aa639f9'
 
 // Wagmi configuration for Sepolia testnet
 export const config = createConfig({
   chains: [sepolia],
   connectors: [
-    injected(),
+    
     metaMask(),
-    walletConnect({ 
-      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'demo' 
-    }),
+    
   ],
   transports: {
-    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/Ngv2wXETu-HWit6qae5-i'),
+    [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/k7BADKO5COc8bS0-URA5H'),
   },
   // Force default chain to Sepolia
   ssr: true,

@@ -1,5 +1,5 @@
 import { network } from "hardhat";
-import { formatUnits } from "viem";
+import { formatUnits, getAddress } from "viem";
 
 async function main() {
   console.log("🚀 Deploying CommunalScoreToken...");
@@ -8,14 +8,17 @@ async function main() {
   const [deployer] = await viem.getWalletClients();
 
   // Set initial supply (1 million tokens)
-  const initialSupply = 1000000n; // This will be multiplied by 10^18 in the constructor
+  const initialSupply = 1000000n; // Multiplied by 10^18 in the constructor
+  const envOwner = process.env.OWNER_ADDRESS || deployer.account.address;
+  const initialOwner = getAddress(envOwner as `0x${string}`);
 
   console.log(`📊 Initial Supply: ${initialSupply} CST tokens`);
   console.log(`🔢 Total Supply: ${initialSupply * 10n ** 18n} wei`);
   console.log(`👤 Deployer: ${deployer.account.address}`);
+  console.log(`👑 Initial Owner: ${initialOwner}`);
 
   // Deploy the contract
-  const token = await viem.deployContract("CommunalScoreToken", [initialSupply]);
+  const token = await viem.deployContract("CommunalScoreToken", [initialSupply, initialOwner]);
   console.log(`✅ CommunalScoreToken deployed to: ${token.address}`);
 
   // Get deployment info

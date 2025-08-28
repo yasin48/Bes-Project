@@ -16,14 +16,16 @@ contract CommunalScoreToken is ERC20, Ownable {
     event TokensMinted(address indexed to, uint256 amount, string reason);
     
     /**
-     * @dev Constructor that gives msg.sender all of initial tokens
-     * @param initialSupply The initial token supply
+     * @dev Constructor that sets an explicit owner and mints initial tokens to it
+     * @param initialSupply The initial token supply (in whole tokens)
+     * @param initialOwner The address that will be set as contract owner and receive initial tokens
      */
-    constructor(uint256 initialSupply) 
+    constructor(uint256 initialSupply, address initialOwner) 
         ERC20("Communal Score Token", "CST") 
-        Ownable(msg.sender) 
+        Ownable(initialOwner) 
     {
-        _mint(msg.sender, initialSupply * 10 ** decimals());
+        require(initialOwner != address(0), "Owner cannot be zero address");
+        _mint(initialOwner, initialSupply * 10 ** decimals());
     }
     
     /**

@@ -20,6 +20,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     if (user) {
       const fetchUserProfile = async () => {
         setLoading(true);

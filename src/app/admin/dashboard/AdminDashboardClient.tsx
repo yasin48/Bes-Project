@@ -261,9 +261,6 @@ export default function AdminDashboardClient({ initialEvents }: AdminDashboardCl
                 </Button>
               ))}
             </div>
-            <p className="text-xs text-gray-400 mt-4">
-              Expected admin wallet: 0x33673...8Be65
-            </p>
           </div>
         )}
       </div>

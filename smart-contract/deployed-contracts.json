@@ -1,16 +1,16 @@
 {
   "sepolia": {
     "CommunalScoreToken": {
-      "address": "0xd9cf1ec86e208a409d3de638e72686bb114f4750",
-      "deployer": "0x33673fb2bd33fe285d27eec3e9d0dc1f70e8be65",
-      "owner": "0x33673Fb2Bd33Fe285D27eEc3E9D0Dc1F70E8Be65",
+      "address": "0x494431f194ae0ad6328af03ac850c38a0aa639f9",
+      "deployer": "0x6106a06A2f340F11574154A4dD6bA629D3E94402",
+      "owner": "0x6106a06A2f340F11574154A4dD6bA629D3E94402",
       "name": "Communal Score Token",
       "symbol": "CST",
       "decimals": 18,
       "totalSupply": "1000000",
-      "deployedAt": "2025-08-27T22:20:53.684Z",
+      "deployedAt": "2025-09-03T00:00:00.000Z",
       "network": "sepolia",
-      "rpcUrl": "https://eth-sepolia.g.alchemy.com/v2/Ngv2wXETu-HWit6qae5-i"
+      "rpcUrl": "https://eth-sepolia.g.alchemy.com/v2/k7BADKO5COc8bS0-URA5H"
     }
   }
 }

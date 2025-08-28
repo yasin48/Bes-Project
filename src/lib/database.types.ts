@@ -58,6 +58,27 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          total_earnings: number
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id: string
+          total_earnings?: number
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          total_earnings?: number
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number

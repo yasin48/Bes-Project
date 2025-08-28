@@ -16,7 +16,7 @@ describe("CommunalScoreToken", async function () {
 
   describe("Deployment", function () {
     it("Should set the correct name, symbol, and decimals", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const name = await token.read.name();
       const symbol = await token.read.symbol();
@@ -28,7 +28,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should assign the total supply to the owner", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const totalSupply = await token.read.totalSupply();
       const ownerBalance = await token.read.balanceOf([owner.account.address]);
@@ -38,8 +38,8 @@ describe("CommunalScoreToken", async function () {
       assert.equal(ownerBalance, totalSupply);
     });
 
-    it("Should set the deployer as the owner", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+    it("Should set the deployer as the owner when passed", async function () {
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const contractOwner = await token.read.owner();
       assert.equal(getAddress(contractOwner), getAddress(owner.account.address));
@@ -51,7 +51,7 @@ describe("CommunalScoreToken", async function () {
     const reason = "Community participation reward";
 
     it("Should allow owner to redeem tokens to users", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const initialOwnerBalance = await token.read.balanceOf([owner.account.address]);
       const initialUserBalance = await token.read.balanceOf([user1.account.address]);
@@ -71,7 +71,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should reject redemption from non-owner", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       try {
         await token.write.redeem([user1.account.address, redeemAmount, reason], {
@@ -84,7 +84,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should reject redemption to zero address", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       try {
         await token.write.redeem([zeroAddress, redeemAmount, reason]);
@@ -95,7 +95,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should reject redemption with zero amount", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       try {
         await token.write.redeem([user1.account.address, 0n, reason]);
@@ -106,7 +106,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should reject redemption when owner has insufficient balance", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const totalSupply = await token.read.totalSupply();
       const excessiveAmount = totalSupply + parseUnits("1", TOKEN_DECIMALS);
@@ -125,7 +125,7 @@ describe("CommunalScoreToken", async function () {
     const reason = "Additional token creation";
 
     it("Should allow owner to mint new tokens", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       const initialTotalSupply = await token.read.totalSupply();
       const initialUserBalance = await token.read.balanceOf([user1.account.address]);
@@ -145,7 +145,7 @@ describe("CommunalScoreToken", async function () {
     });
 
     it("Should reject minting from non-owner", async function () {
-      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY]);
+      const token = await viem.deployContract("CommunalScoreToken", [INITIAL_SUPPLY, owner.account.address]);
       
       try {
         await token.write.mint([user1.account.address, mintAmount, reason], {
